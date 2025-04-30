@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>EcoQuest: Park Protectors</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #e0f7e9;
+      text-align: center;
+      padding: 20px;
+    }
+    h1 {
+      color: #2c6e49;
+    }
+    .dashboard {
+      margin: 20px 0;
+      padding: 20px;
+      background: #ffffff;
+      border-radius: 10px;
+      display: inline-block;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .problem-card {
+      margin-top: 30px;
+      padding: 20px;
+      background: #cce5ff;
+      border-radius: 10px;
+      display: inline-block;
+      max-width: 600px;
+    }
+    button {
+      margin: 10px;
+      padding: 15px 25px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #4caf50;
+      color: white;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .game-over {
+      font-size: 24px;
+      color: red;
+      margin-top: 30px;
+    }
+    .summary {
+      font-size: 20px;
+      color: #333;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      display: inline-block;
+    }
+    .more-info {
+      margin-top: 15px;
+      font-size: 16px;
+      background: #e8f5e9;
+      padding: 10px;
+      border-radius: 8px;
+      color: #2c6e49;
+    }
+    .alert-msg {
+      font-size: 18px;
+      color: #d32f2f;
+      margin: 10px 0;
+    }
+  </style>
+</head>
+<body>
+
+<h1>🌲 EcoQuest: Park Protectors 🌎</h1>
+
+<div class="homepage">
+  <h2>Welcome to EcoQuest!</h2>
+  <p>You are a state park director with a mission: protect Pennsylvania's parks from environmental threats.</p>
+  <p>You start with a $35 million budget and a park rating of 50/100.</p>
+  <p>For each park problem, decide whether to take action (costs money but helps the park) or ignore it (no cost, but rating may suffer).</p>
+  <p>Can you manage your resources and still keep our parks thriving?</p>
+  <button onclick="startGame()">Start Game</button>
+</div>
+
+<div class="dashboard" style="display: none;">
+  <h2>Budget: $<span id="budget">35</span>M</h2>
+  <h2>Park Rating: <span id="rating">50</span>/100</h2>
+</div>
+
+<div class="problem-card" id="problem-card" style="display: none;">
+  <!-- Problem content will load here -->
+</div>
+
+<div class="game-over" id="game-over" style="display:none;">
+  Game Over! 🚫<br>
+  <button onclick="location.reload()">Play Again</button>
+</div>
+
+<div class="summary" id="summary" style="display:none;">
+  <!-- Summary content -->
+</div>
+
+<script>
+  let budget = 35;
+  let rating = 50;
+  let currentIndex = 0;
+  let parksHelped = 0;
+  let isProcessing = false;
+
+  function startGame() {
+    document.querySelector('.homepage').style.display = 'none';
+    document.querySelector('.dashboard').style.display = 'inline-block';
+    document.getElementById('problem-card').style.display = 'inline-block';
+    loadProblem();
+    updateDashboard();
+  }
+
+  const problems = [
+    {
+      park: "Gifford Pinchot State Park",
+      issue: "Invasive Species - European Water Chestnut",
+      actionCost: 1,
+      actionImpact: 10,
+      skipImpact: -10,
+      moreInfo: "This park faces aggressive growth of European water chestnut, which chokes out native species and clogs waterways. Removing them helps aquatic life thrive."
+    },
+    {
+      park: "Presque Isle State Park",
+      issue: "Flooding from Climate Change",
+      actionCost: 5,
+      actionImpact: 15,
+      skipImpact: -15,
+      moreInfo: "Presque Isle, a popular Lake Erie destination, faces frequent flooding due to rising lake levels. Action helps reinforce infrastructure and shoreline buffers."
+    },
+    {
+      park: "Delaware Canal State Park",
+      issue: "Stormwater Damage to Infrastructure",
+      actionCost: 3,
+      actionImpact: 10,
+      skipImpact: -10,
+      moreInfo: "Historic canal paths and bridges are eroding. Managing stormwater helps preserve the park's trails and supports bike/hike tourism."
+    },
+    {
+      park: "Pymatuning State Park",
+      issue: "Overcrowding and Visitor Pressure",
+      actionCost: 2,
+      actionImpact: 8,
+      skipImpact: -8,
+      moreInfo: "High visitor numbers are causing erosion and pollution. Your efforts improve signage, parking, and ranger patrols to protect natural areas."
+    },
+    {
+      park: "Marsh Creek State Park",
+      issue: "Invasive Brook Trout Threat",
+      actionCost: 2,
+      actionImpact: 9,
+      skipImpact: -9,
+      moreInfo: "Native species are under threat from invasive brook trout. Action supports habitat restoration and native fish recovery."
+    },
+    {
+      park: "Clear Creek State Park",
+      issue: "Chronic Wasting Disease Threat",
+      actionCost: 4,
+      actionImpact: 12,
+      skipImpact: -12,
+      moreInfo: "Chronic Wasting Disease affects deer populations. With your help, testing and containment zones are expanded."
+    },
+    {
+      park: "Ricketts Glen State Park",
+      issue: "Trail Erosion from Heavy Rains",
+      actionCost: 3,
+      actionImpact: 11,
+      skipImpact: -11,
+      moreInfo: "Popular waterfall trails suffer washouts and erosion. Trail reinforcement and drainage will preserve scenic paths."
+    },
+    {
+      park: "Ohiopyle State Park",
+      issue: "Pollution from Kayaking Events",
+      actionCost: 2,
+      actionImpact: 8,
+      skipImpact: -10,
+      moreInfo: "Events bring tourism but leave waste. Better trash collection and awareness will keep waters clean."
+    },
+    {
+      park: "Hickory Run State Park",
+      issue: "Forest Fire Risk During Drought",
+      actionCost: 4,
+      actionImpact: 14,
+      skipImpact: -13,
+      moreInfo: "Dry summers increase fire risk. Fuel reduction and education reduce danger to forests and visitors."
+    },
+    {
+      park: "Lackawanna State Park",
+      issue: "Invasive Plants in Wetlands",
+      actionCost: 3,
+      actionImpact: 9,
+      skipImpact: -9,
+      moreInfo: "Wetlands are crucial for wildlife. Removing invasives helps frogs, birds, and native plants recover."
+    },
+    {
+      park: "Frances Slocum State Park",
+      issue: "Water Quality Decline from Runoff",
+      actionCost: 2,
+      actionImpact: 7,
+      skipImpact: -7,
+      moreInfo: "Stormwater runoff impacts lake health. Planting buffer zones improves water quality."
+    },
+    {
+      park: "Point State Park",
+      issue: "Urban Pollution from Surroundings",
+      actionCost: 4,
+      actionImpact: 10,
+      skipImpact: -10,
+      moreInfo: "In the heart of Pittsburgh, urban runoff and trash affect the park. River cleanups and green spaces help."
+    },
+    {
+      park: "French Creek State Park",
+      issue: "Declining Bat Population",
+      actionCost: 2,
+      actionImpact: 8,
+      skipImpact: -8,
+      moreInfo: "White-nose syndrome impacts bats. Building roosts and monitoring colonies aids recovery."
+    },
+    {
+      park: "Cook Forest State Park",
+      issue: "Old Growth Tree Disease",
+      actionCost: 3,
+      actionImpact: 10,
+      skipImpact: -10,
+      moreInfo: "Historic trees are threatened by pests. Monitoring and tree injections help preserve ancient forests."
+    },
+    {
+      park: "Tuscarora State Park",
+      issue: "Lake Sedimentation from Upstream Erosion",
+      actionCost: 2,
+      actionImpact: 6,
+      skipImpact: -6,
+      moreInfo: "Erosion is filling the lake with sediment. Silt traps and reforestation slow the damage."
+    }
+  ];
+
+  function updateDashboard() {
+    document.getElementById('budget').innerText = budget;
+    document.getElementById('rating').innerText = rating;
+  }
+
+  function checkGameOver() {
+    if (budget <= 0 || rating <= 0) {
+      document.getElementById('problem-card').style.display = 'none';
+      document.getElementById('game-over').style.display = 'block';
+      return true;
+    }
+    return false;
+  }
+
+  function loadProblem() {
+    if (currentIndex >= problems.length) {
+      showSummary();
+      return;
+    }
+
+    const problem = problems[currentIndex];
+    const card = `
+      <h3>🚨 Alert: ${problem.park}</h3>
+      <p><strong>Problem:</strong> ${problem.issue}</p>
+      <p>What will you do?</p>
+      <button onclick="takeAction()">✅ Take Action (-$${problem.actionCost}M, +${problem.actionImpact} Rating)</button>
+      <button onclick="ignoreProblem()">❌ Ignore (0 Cost, ${problem.skipImpact} Rating)</button>
+      <div id="alert-msg" class="alert-msg" style="display: none;"></div>
+      <div id="more-info" class="more-info" style="display: none;"></div>
+    `;
+    document.getElementById('problem-card').innerHTML = card;
+    isProcessing = false;
+  }
+
+  function takeAction() {
+    if (isProcessing) return;
+    isProcessing = true;
+
+    const problem = problems[currentIndex];
+    if (budget < problem.actionCost) {
+      document.getElementById('alert-msg').innerText = `❗ Not enough budget to take action.`;
+      document.getElementById('alert-msg').style.display = 'block';
+      isProcessing = false;
+      return;
+    }
+
+    budget -= problem.actionCost;
+    rating += problem.actionImpact;
+    parksHelped++;
+    updateDashboard();
+
+    const moreInfoDiv = document.getElementById('more-info');
+    moreInfoDiv.textContent = `ℹ️ ${problem.moreInfo}`;
+    moreInfoDiv.style.display = 'block';
+
+    setTimeout(() => {
+      currentIndex++;
+      if (!checkGameOver()) loadProblem();
+    }, 3000);
+  }
+
+  function ignoreProblem() {
+    if (isProcessing) return;
+    isProcessing = true;
+
+    const problem = problems[currentIndex];
+    rating += problem.skipImpact;
+    updateDashboard();
+
+    const moreInfoDiv = document.getElementById('more-info');
+    moreInfoDiv.textContent = `ℹ️ ${problem.moreInfo}`;
+    moreInfoDiv.style.display = 'block';
+
+    setTimeout(() => {
+      currentIndex++;
+      if (!checkGameOver()) loadProblem();
+    }, 3000);
+  }
+
+  function showSummary() {
+    document.getElementById('problem-card').style.display = 'none';
+    const summary = `
+      <h3>🎉 Mission Complete!</h3>
+      <p>You helped <strong>${parksHelped}</strong> out of ${problems.length} parks.</p>
+      <p>Final Budget: $${budget}M</p>
+      <p>Final Park Rating: ${rating}/100</p>
+      <p><strong>${rating >= 80 ? '🌟 Gold' : rating >= 60 ? '🧈 Silver' : '🥉 Bronze'} Director Award</strong></p>
+      <button onclick="location.reload()">Play Again</button>
+    `;
+    document.getElementById('summary').innerHTML = summary;
+    document.getElementById('summary').style.display = 'block';
+  }
+
+  loadProblem();
+  updateDashboard();
+</script>
+
+</body>
+</html>
