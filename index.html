@@ -2,107 +2,467 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>EcoQuest: Park Protectors</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Park Protectors: Eco Challenge</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    :root {
+      --primary-color: #2c6e49;
+      --secondary-color: #4caf50;
+      --accent-color: #f9c74f;
+      --light-bg: #e0f7e9;
+      --card-bg: #ffffff;
+      --alert-color: #d32f2f;
+      --info-color: #2196f3;
+      --success-color: #4caf50;
+      --warning-color: #ff9800;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
     body {
-      font-family: 'Arial', sans-serif;
-      background: #e0f7e9;
-      text-align: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--light-bg);
+      color: #333;
+      line-height: 1.6;
       padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
     }
+    
+    h1, h2, h3 {
+      color: var(--primary-color);
+      margin-bottom: 15px;
+    }
+    
     h1 {
-      color: #2c6e49;
+      font-size: 2.5rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
     }
+    
+    p {
+      margin-bottom: 15px;
+    }
+    
+    .container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 80vh;
+    }
+    
+    .homepage {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      max-width: 800px;
+      text-align: center;
+      margin: 20px auto;
+    }
+    
+    .homepage h2 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    
+    .homepage p {
+      font-size: 1.1rem;
+      margin-bottom: 15px;
+    }
+    
     .dashboard {
-      margin: 20px 0;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      background: var(--card-bg);
       padding: 20px;
-      background: #ffffff;
-      border-radius: 10px;
-      display: inline-block;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
     }
+    
+    .dashboard-item {
+      text-align: center;
+      padding: 10px;
+    }
+    
+    .dashboard-value {
+      font-size: 2rem;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    
+    .dashboard-label {
+      font-size: 1rem;
+      color: #666;
+    }
+    
     .problem-card {
-      margin-top: 30px;
-      padding: 20px;
-      background: #cce5ff;
-      border-radius: 10px;
-      display: inline-block;
-      max-width: 600px;
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
     }
+    
+    .problem-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    .problem-icon {
+      font-size: 2rem;
+      margin-right: 15px;
+      color: var(--info-color);
+    }
+    
+    .problem-title {
+      font-size: 1.5rem;
+      color: var(--primary-color);
+    }
+    
+    .problem-description {
+      font-size: 1.2rem;
+      margin-bottom: 20px;
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 15px;
+      margin: 20px 0;
+    }
+    
     button {
-      margin: 10px;
-      padding: 15px 25px;
-      font-size: 16px;
+      padding: 12px 25px;
+      font-size: 1rem;
+      font-weight: bold;
       border: none;
-      border-radius: 5px;
+      border-radius: 50px;
       cursor: pointer;
-      background-color: #4caf50;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 200px;
+    }
+    
+    .btn-action {
+      background-color: var(--secondary-color);
       color: white;
     }
-    button:hover {
-      background-color: #45a049;
+    
+    .btn-ignore {
+      background-color: #f44336;
+      color: white;
     }
-    .game-over {
-      font-size: 24px;
-      color: red;
-      margin-top: 30px;
-    }
-    .summary {
-      font-size: 20px;
+    
+    .btn-community {
+      background-color: var(--accent-color);
       color: #333;
-      background: #fff;
-      padding: 20px;
-      border-radius: 10px;
-      display: inline-block;
     }
+    
+    button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+    }
+    
+    button:active {
+      transform: translateY(-1px);
+    }
+    
+    button i {
+      margin-right: 10px;
+    }
+    
     .more-info {
-      margin-top: 15px;
-      font-size: 16px;
       background: #e8f5e9;
-      padding: 10px;
-      border-radius: 8px;
-      color: #2c6e49;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 20px;
+      text-align: left;
+      border-left: 5px solid var(--primary-color);
     }
+    
     .alert-msg {
-      font-size: 18px;
-      color: #d32f2f;
-      margin: 10px 0;
+      color: var(--alert-color);
+      font-weight: bold;
+      margin: 15px 0;
+      padding: 10px;
+      background: rgba(211, 47, 47, 0.1);
+      border-radius: 5px;
+    }
+    
+    .game-over {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      text-align: center;
+    }
+    
+    .game-over h2 {
+      font-size: 2.5rem;
+      color: var(--alert-color);
+      margin-bottom: 20px;
+    }
+    
+    .summary {
+      background: var(--card-bg);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      text-align: center;
+    }
+    
+    .summary h3 {
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    
+    .award {
+      font-size: 2.5rem;
+      margin: 20px 0;
+      padding: 15px;
+      background: linear-gradient(135deg, #f6d365 0%, #fda085 100%);
+      border-radius: 10px;
+      color: #333;
+    }
+    
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      margin: 20px 0;
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 15px;
+      min-width: 150px;
+    }
+    
+    .stat-value {
+      font-size: 1.8rem;
+      font-weight: bold;
+      color: var(--primary-color);
+    }
+    
+    .stat-label {
+      font-size: 1rem;
+      color: #666;
+    }
+    
+    .park-map {
+      width: 100%;
+      max-width: 600px;
+      height: 300px;
+      margin: 20px auto;
+      background: #cce5ff;
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+      display: none;
+    }
+    
+    .map-marker {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      background: var(--alert-color);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: bold;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    
+    .event-notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      z-index: 1000;
+      max-width: 300px;
+      transform: translateX(400px);
+      transition: transform 0.5s ease;
+    }
+    
+    .event-notification.show {
+      transform: translateX(0);
+    }
+    
+    .progress-container {
+      width: 100%;
+      max-width: 800px;
+      margin: 20px auto;
+      background: var(--card-bg);
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .progress-bar {
+      height: 20px;
+      background: #e0e0e0;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    
+    .progress-fill {
+      height: 100%;
+      background: var(--secondary-color);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+    
+    .mini-challenge {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 20px;
+      border-radius: 15px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    
+    .mini-challenge h3 {
+      color: white;
+      margin-bottom: 15px;
+    }
+    
+    .mini-challenge-options {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+      
+      h1 {
+        font-size: 1.8rem;
+      }
+      
+      .dashboard {
+        flex-direction: column;
+        padding: 15px;
+      }
+      
+      .action-buttons {
+        flex-direction: column;
+      }
+      
+      button {
+        width: 100%;
+      }
+      
+      .stats {
+        flex-direction: column;
+      }
     }
   </style>
 </head>
 <body>
 
-<h1>🌲 EcoQuest: Park Protectors 🌎</h1>
+<div class="container">
+  <h1><i class="fas fa-tree"></i> Park Protectors: Eco Challenge <i class="fas fa-globe-americas"></i></h1>
 
-<div class="homepage">
-  <h2>Welcome to EcoQuest!</h2>
-  <p>You are a state park director with a mission: protect Pennsylvania's parks from environmental threats.</p>
-  <p>You start with a $35 million budget and a park rating of 50/100.</p>
-  <p>For each park problem, decide whether to take action (costs money but helps the park) or ignore it (no cost, but rating may suffer).</p>
-  <p>Can you manage your resources and still keep our parks thriving?</p>
-  <button onclick="startGame()">Start Game</button>
+  <div class="homepage">
+    <h2>Congratulations!</h2>
+    <p>You've just been appointed as the Director of the Bureau of State Parks for Pennsylvania's Department of Conservation and Natural Resources (DCNR)!</p>
+    <p>But when you check on the 124 beautiful state parks... Some are in serious trouble!</p>
+    <p><strong>Your mission:</strong></p>
+    <ul style="text-align: left; margin-left: 30px; margin-bottom: 20px;">
+      <li>Protect and maintain the parks</li>
+      <li>Solve environmental problems</li>
+      <li>Manage your budget wisely</li>
+      <li>Keep your Park Rating high!</li>
+    </ul>
+    <p>You start with a <strong>$112 million budget</strong> and a <strong>Park Rating of 50</strong> (scale 1-100).</p>
+    <p>For each park problem, decide whether to take action (costs money but helps the park) or ignore it (no cost, but rating may suffer).</p>
+    <p>Can you become a legendary Park Protector?</p>
+    <button onclick="startGame()" class="btn-action"><i class="fas fa-play"></i> Start Game</button>
+  </div>
+
+  <div class="dashboard" style="display: none;">
+    <div class="dashboard-item">
+      <div class="dashboard-value">$<span id="budget">112</span>M</div>
+      <div class="dashboard-label">Budget</div>
+    </div>
+    <div class="dashboard-item">
+      <div class="dashboard-value"><span id="rating">50</span>/100</div>
+      <div class="dashboard-label">Park Rating</div>
+    </div>
+    <div class="dashboard-item">
+      <div class="dashboard-value"><span id="parks-helped">0</span>/<span id="total-parks">0</span></div>
+      <div class="dashboard-label">Parks Helped</div>
+    </div>
+  </div>
+
+  <div class="progress-container" style="display: none;">
+    <p>Game Progress</p>
+    <div class="progress-bar">
+      <div class="progress-fill" id="progress-fill"></div>
+    </div>
+  </div>
+
+  <div class="park-map" id="park-map" style="display: none;">
+    <!-- Map markers will be added here -->
+  </div>
+
+  <div class="problem-card" id="problem-card" style="display: none;">
+    <!-- Problem content will load here -->
+  </div>
+
+  <div class="game-over" id="game-over" style="display:none;">
+    <h2><i class="fas fa-exclamation-triangle"></i> Game Over!</h2>
+    <p id="game-over-reason"></p>
+    <button onclick="location.reload()" class="btn-action"><i class="fas fa-redo"></i> Play Again</button>
+  </div>
+
+  <div class="summary" id="summary" style="display:none;">
+    <!-- Summary content -->
+  </div>
 </div>
 
-<div class="dashboard" style="display: none;">
-  <h2>Budget: $<span id="budget">35</span>M</h2>
-  <h2>Park Rating: <span id="rating">50</span>/100</h2>
-</div>
-
-<div class="problem-card" id="problem-card" style="display: none;">
-  <!-- Problem content will load here -->
-</div>
-
-<div class="game-over" id="game-over" style="display:none;">
-  Game Over! 🚫<br>
-  <button onclick="location.reload()">Play Again</button>
-</div>
-
-<div class="summary" id="summary" style="display:none;">
-  <!-- Summary content -->
+<div class="event-notification" id="event-notification">
+  <!-- Event notifications will appear here -->
 </div>
 
 <script>
-  let budget = 35;
+  let budget = 112;
   let rating = 50;
   let currentIndex = 0;
   let parksHelped = 0;
@@ -110,147 +470,349 @@
 
   function startGame() {
     document.querySelector('.homepage').style.display = 'none';
-    document.querySelector('.dashboard').style.display = 'inline-block';
-    document.getElementById('problem-card').style.display = 'inline-block';
+    document.querySelector('.dashboard').style.display = 'flex';
+    document.querySelector('.progress-container').style.display = 'block';
+    document.getElementById('problem-card').style.display = 'block';
+    document.getElementById('total-parks').innerText = problems.length;
     loadProblem();
     updateDashboard();
+    updateProgress();
   }
 
+  // Problem data based on the requirements
   const problems = [
     {
       park: "Gifford Pinchot State Park",
-      issue: "Invasive Species - European Water Chestnut",
+      issue: "Invasive Species - European Water Chestnut invasion!",
+      type: "invasive",
+      icon: "fas fa-bug",
       actionCost: 1,
       actionImpact: 10,
       skipImpact: -10,
-      moreInfo: "This park faces aggressive growth of European water chestnut, which chokes out native species and clogs waterways. Removing them helps aquatic life thrive."
+      actionDescription: "Remove by hand or machines",
+      skipDescription: "Spread continues",
+      moreInfo: "European Water Chestnut is an aggressive aquatic plant that forms dense mats on water surfaces, blocking sunlight and depleting oxygen for native species. Removing them helps restore the natural ecosystem balance."
     },
     {
       park: "Presque Isle State Park",
-      issue: "Flooding from Climate Change",
+      issue: "Climate Change Impact - High water levels flood trails and beaches!",
+      type: "climate",
+      icon: "fas fa-water",
       actionCost: 5,
       actionImpact: 15,
       skipImpact: -15,
-      moreInfo: "Presque Isle, a popular Lake Erie destination, faces frequent flooding due to rising lake levels. Action helps reinforce infrastructure and shoreline buffers."
+      actionDescription: "Build raised boardwalks and drainage",
+      skipDescription: "Loss of trails and visitors",
+      moreInfo: "Rising lake levels due to climate change are causing significant erosion and flooding at this popular Lake Erie destination. Building raised boardwalks and improved drainage systems will help preserve access to beaches and protect sensitive habitats."
     },
     {
       park: "Delaware Canal State Park",
-      issue: "Stormwater Damage to Infrastructure",
+      issue: "Infrastructure Damage - Stormwater runoff damages the historic canal!",
+      type: "infrastructure",
+      icon: "fas fa-tools",
       actionCost: 3,
       actionImpact: 10,
-      skipImpact: -10,
-      moreInfo: "Historic canal paths and bridges are eroding. Managing stormwater helps preserve the park's trails and supports bike/hike tourism."
+      skipImpact: -20,
+      actionDescription: "Restore and reinforce",
+      skipDescription: "Canal closes down",
+      moreInfo: "The 60-mile historic canal system is being damaged by increased stormwater runoff. Restoration efforts will preserve this National Historic Landmark and maintain the towpath trail used by thousands of visitors annually."
     },
     {
       park: "Pymatuning State Park",
-      issue: "Overcrowding and Visitor Pressure",
+      issue: "Overcrowding and Visitor Pressure - Too many visitors are harming trails and wildlife.",
+      type: "visitors",
+      icon: "fas fa-users",
       actionCost: 2,
       actionImpact: 8,
-      skipImpact: -8,
-      moreInfo: "High visitor numbers are causing erosion and pollution. Your efforts improve signage, parking, and ranger patrols to protect natural areas."
+      skipImpact: -10,
+      actionDescription: "Add rangers and education signs",
+      skipDescription: "Trail destruction and pollution",
+      moreInfo: "As one of Pennsylvania's most visited parks, Pymatuning faces challenges from heavy visitor traffic. Additional rangers and educational signage will help manage visitor impact while preserving the natural experience."
     },
     {
       park: "Marsh Creek State Park",
-      issue: "Invasive Brook Trout Threat",
+      issue: "Invasive Fish - Brook trout harming native fish!",
+      type: "invasive",
+      icon: "fas fa-fish",
       actionCost: 2,
-      actionImpact: 9,
-      skipImpact: -9,
-      moreInfo: "Native species are under threat from invasive brook trout. Action supports habitat restoration and native fish recovery."
+      actionImpact: 7,
+      skipImpact: -12,
+      actionDescription: "Launch catch-and-remove program",
+      skipDescription: "Ecosystem collapse",
+      moreInfo: "Non-native brook trout are outcompeting native fish species for resources. A targeted catch-and-remove program will help restore balance to the aquatic ecosystem while engaging local fishing enthusiasts in conservation."
     },
     {
-      park: "Clear Creek State Park",
-      issue: "Chronic Wasting Disease Threat",
-      actionCost: 4,
-      actionImpact: 12,
+      park: "Greenwood Furnace State Park",
+      issue: "Wildfires Risk - Dead trees + dry winds = fire hazard!",
+      type: "fire",
+      icon: "fas fa-fire",
+      actionCost: 1.5,
+      actionImpact: 9,
+      skipImpact: -25,
+      actionDescription: "Conduct controlled burns",
+      skipDescription: "Major wildfire!",
+      moreInfo: "Accumulated dead trees and underbrush create dangerous wildfire conditions. Controlled burns will reduce fuel loads and promote forest health while protecting nearby communities from catastrophic wildfire."
+    },
+    {
+      park: "Bald Eagle State Park",
+      issue: "Insect Infestation - Spotted lanternfly infestation!",
+      type: "invasive",
+      icon: "fas fa-bug",
+      actionCost: 1,
+      actionImpact: 6,
       skipImpact: -12,
-      moreInfo: "Chronic Wasting Disease affects deer populations. With your help, testing and containment zones are expanded."
+      actionDescription: "Bio-control project",
+      skipDescription: "Trees and crops die",
+      moreInfo: "The invasive spotted lanternfly threatens both forest and agricultural lands. A biological control project will help manage the infestation using natural predators rather than harmful chemicals."
     },
     {
       park: "Ricketts Glen State Park",
-      issue: "Trail Erosion from Heavy Rains",
+      issue: "Trail Erosion - Heavy rains washing away famous waterfall trails!",
+      type: "infrastructure",
+      icon: "fas fa-mountain",
       actionCost: 3,
       actionImpact: 11,
       skipImpact: -11,
-      moreInfo: "Popular waterfall trails suffer washouts and erosion. Trail reinforcement and drainage will preserve scenic paths."
+      actionDescription: "Install water bars and stone steps",
+      skipDescription: "Close dangerous sections",
+      moreInfo: "The Falls Trail system with its 22 named waterfalls is suffering from erosion due to increased rainfall. Installing proper drainage and reinforcing trails will preserve this unique hiking experience."
     },
     {
       park: "Ohiopyle State Park",
-      issue: "Pollution from Kayaking Events",
+      issue: "Water Pollution - Rafting and kayaking events leaving trash in the river!",
+      type: "pollution",
+      icon: "fas fa-tint-slash",
       actionCost: 2,
       actionImpact: 8,
       skipImpact: -10,
-      moreInfo: "Events bring tourism but leave waste. Better trash collection and awareness will keep waters clean."
+      actionDescription: "Implement river steward program",
+      skipDescription: "Water quality declines",
+      moreInfo: "As a premier whitewater destination, Ohiopyle faces challenges from heavy recreational use. A river steward program will educate visitors and organize regular cleanups to protect the Youghiogheny River."
     },
     {
       park: "Hickory Run State Park",
-      issue: "Forest Fire Risk During Drought",
+      issue: "Drought Impact - Boulder Field drying out and vegetation encroaching!",
+      type: "climate",
+      icon: "fas fa-sun",
       actionCost: 4,
       actionImpact: 14,
       skipImpact: -13,
-      moreInfo: "Dry summers increase fire risk. Fuel reduction and education reduce danger to forests and visitors."
+      actionDescription: "Implement water management plan",
+      skipDescription: "Natural landmark deteriorates",
+      moreInfo: "The famous National Natural Landmark Boulder Field is being affected by changing precipitation patterns. A comprehensive water management plan will help preserve this unique geological feature."
     },
     {
       park: "Lackawanna State Park",
-      issue: "Invasive Plants in Wetlands",
+      issue: "Algae Bloom - Excessive nutrients causing harmful algae in the lake!",
+      type: "pollution",
+      icon: "fas fa-water",
       actionCost: 3,
       actionImpact: 9,
       skipImpact: -9,
-      moreInfo: "Wetlands are crucial for wildlife. Removing invasives helps frogs, birds, and native plants recover."
+      actionDescription: "Install buffer zones and aeration",
+      skipDescription: "Swimming and fishing bans",
+      moreInfo: "Nutrient runoff is causing harmful algal blooms that threaten both wildlife and recreational use. Buffer zones and lake aeration will help restore water quality and protect public health."
     },
     {
       park: "Frances Slocum State Park",
-      issue: "Water Quality Decline from Runoff",
+      issue: "Habitat Loss - Nesting areas for endangered birds disappearing!",
+      type: "wildlife",
+      icon: "fas fa-feather",
       actionCost: 2,
       actionImpact: 7,
       skipImpact: -7,
-      moreInfo: "Stormwater runoff impacts lake health. Planting buffer zones improves water quality."
+      actionDescription: "Create protected nesting areas",
+      skipDescription: "Bird population declines",
+      moreInfo: "Several endangered bird species rely on the park's diverse habitats. Creating and protecting dedicated nesting areas will help these species recover while offering bird watching opportunities."
     },
     {
       park: "Point State Park",
-      issue: "Urban Pollution from Surroundings",
+      issue: "Urban Heat Island - Downtown Pittsburgh park becoming too hot for visitors!",
+      type: "climate",
+      icon: "fas fa-temperature-high",
       actionCost: 4,
       actionImpact: 10,
       skipImpact: -10,
-      moreInfo: "In the heart of Pittsburgh, urban runoff and trash affect the park. River cleanups and green spaces help."
+      actionDescription: "Plant shade trees and install cooling stations",
+      skipDescription: "Summer visitation plummets",
+      moreInfo: "This urban park at the confluence of three rivers is experiencing extreme heat due to the urban heat island effect. Adding shade trees and cooling stations will make the park more comfortable and accessible during hot weather."
     },
     {
       park: "French Creek State Park",
-      issue: "Declining Bat Population",
-      actionCost: 2,
-      actionImpact: 8,
-      skipImpact: -8,
-      moreInfo: "White-nose syndrome impacts bats. Building roosts and monitoring colonies aids recovery."
+      issue: "Dam Safety - Aging Hopewell Lake dam showing signs of weakness!",
+      type: "infrastructure",
+      icon: "fas fa-exclamation-triangle",
+      actionCost: 5,
+      actionImpact: 12,
+      skipImpact: -18,
+      actionDescription: "Reinforce dam structure",
+      skipDescription: "Risk catastrophic failure",
+      moreInfo: "The dam creating Hopewell Lake is showing signs of structural weakness. Reinforcing the dam is essential for public safety and to preserve this popular recreational lake."
     },
     {
       park: "Cook Forest State Park",
-      issue: "Old Growth Tree Disease",
+      issue: "Old Growth Forest Disease - Ancient trees threatened by invasive pathogen!",
+      type: "invasive",
+      icon: "fas fa-tree",
       actionCost: 3,
       actionImpact: 10,
-      skipImpact: -10,
-      moreInfo: "Historic trees are threatened by pests. Monitoring and tree injections help preserve ancient forests."
-    },
-    {
-      park: "Tuscarora State Park",
-      issue: "Lake Sedimentation from Upstream Erosion",
-      actionCost: 2,
-      actionImpact: 6,
-      skipImpact: -6,
-      moreInfo: "Erosion is filling the lake with sediment. Silt traps and reforestation slow the damage."
+      skipImpact: -15,
+      actionDescription: "Implement treatment and quarantine",
+      skipDescription: "Lose irreplaceable forest",
+      moreInfo: "The Forest Cathedral Natural Area contains some of the oldest trees in the northeastern United States. Implementing treatment protocols and visitor quarantine measures will help protect these irreplaceable natural treasures."
     }
   ];
+
+  // Mini-challenges that can appear randomly during gameplay
+  const miniChallenges = [
+    {
+      title: "Rare Species Discovery!",
+      description: "Biologists have discovered an endangered salamander species in one of your parks! How will you respond?",
+      options: [
+        { text: "Create a special protected habitat", impact: 5, cost: 1 },
+        { text: "Launch a research study", impact: 3, cost: 0.5 },
+        { text: "Ignore - it's just one species", impact: -8, cost: 0 }
+      ]
+    },
+    {
+      title: "Earth Day Event",
+      description: "Local schools want to host an Earth Day celebration in the parks. How will you support this?",
+      options: [
+        { text: "Full program with activities and staff", impact: 7, cost: 1 },
+        { text: "Provide space but limited resources", impact: 3, cost: 0.3 },
+        { text: "Decline due to budget constraints", impact: -5, cost: 0 }
+      ]
+    },
+    {
+      title: "Poacher Alert!",
+      description: "Rangers have reported illegal hunting activity in one of your parks. What's your response?",
+      options: [
+        { text: "Increase ranger patrols and surveillance", impact: 8, cost: 2 },
+        { text: "Install warning signs and cameras", impact: 4, cost: 0.5 },
+        { text: "File a report but take no action", impact: -6, cost: 0 }
+      ]
+    },
+    {
+      title: "Corporate Sponsor Offer",
+      description: "A large corporation wants to sponsor park improvements in exchange for naming rights to a visitor center.",
+      options: [
+        { text: "Accept full sponsorship", impact: -3, cost: -5 },
+        { text: "Negotiate limited partnership", impact: 2, cost: -2 },
+        { text: "Decline - parks should remain commercial-free", impact: 5, cost: 0 }
+      ]
+    },
+    {
+      title: "Volunteer Group Proposal",
+      description: "A local conservation group wants to organize regular volunteer workdays in the parks.",
+      options: [
+        { text: "Fully support with staff and resources", impact: 6, cost: 0.5 },
+        { text: "Allow but provide minimal support", impact: 3, cost: 0.1 },
+        { text: "Decline due to liability concerns", impact: -4, cost: 0 }
+      ]
+    }
+  ];
+
+  // Random events that can occur during gameplay
+  const randomEvents = [
+    {
+      title: "Good News! EPA Grant Awarded",
+      description: "The Environmental Protection Agency has awarded your department a special grant for conservation efforts!",
+      budgetImpact: 5,
+      ratingImpact: 0,
+      type: "positive"
+    },
+    {
+      title: "Disaster! Tornado Damages Park",
+      description: "A severe tornado has caused significant damage to park facilities and natural areas.",
+      budgetImpact: 0,
+      ratingImpact: -10,
+      type: "negative"
+    },
+    {
+      title: "Media Coverage Boost",
+      description: "A national nature documentary featured your conservation efforts, increasing public support!",
+      budgetImpact: 0,
+      ratingImpact: 8,
+      type: "positive"
+    },
+    {
+      title: "Budget Cuts",
+      description: "State legislature has implemented across-the-board budget cuts affecting all departments.",
+      budgetImpact: -8,
+      ratingImpact: 0,
+      type: "negative"
+    },
+    {
+      title: "Tourism Surge",
+      description: "A travel blog named Pennsylvania parks as a top destination, increasing tourism revenue!",
+      budgetImpact: 3,
+      ratingImpact: 5,
+      type: "positive"
+    }
+  ];
+
+  // Track game statistics
+  let gameStats = {
+    parksHelped: 0,
+    moneySpent: 0,
+    ratingGained: 0,
+    ratingLost: 0,
+    miniChallengesCompleted: 0,
+    communityPartnerships: 0
+  };
 
   function updateDashboard() {
     document.getElementById('budget').innerText = budget;
     document.getElementById('rating').innerText = rating;
+    document.getElementById('parks-helped').innerText = parksHelped;
+    
+    // Clamp rating between 0 and 100
+    rating = Math.max(0, Math.min(100, rating));
+  }
+
+  function updateProgress() {
+    const progressPercentage = (currentIndex / problems.length) * 100;
+    document.getElementById('progress-fill').style.width = `${progressPercentage}%`;
   }
 
   function checkGameOver() {
-    if (budget <= 0 || rating <= 0) {
+    if (budget <= 0) {
       document.getElementById('problem-card').style.display = 'none';
       document.getElementById('game-over').style.display = 'block';
+      document.getElementById('game-over-reason').innerHTML = `
+        <p>You've run out of budget! Without funds, you can't maintain the parks.</p>
+        <p>Final Park Rating: ${rating}/100</p>
+        <p>Parks Helped: ${parksHelped}/${problems.length}</p>
+      `;
       return true;
     }
+    
+    if (rating <= 0) {
+      document.getElementById('problem-card').style.display = 'none';
+      document.getElementById('game-over').style.display = 'block';
+      document.getElementById('game-over-reason').innerHTML = `
+        <p>Your Park Rating has dropped to zero! Public support has been lost, and you've been removed from your position.</p>
+        <p>Remaining Budget: $${budget}M</p>
+        <p>Parks Helped: ${parksHelped}/${problems.length}</p>
+      `;
+      return true;
+    }
+    
     return false;
+  }
+
+  function getIconForProblemType(type) {
+    const icons = {
+      'invasive': 'fas fa-bug',
+      'climate': 'fas fa-cloud-sun-rain',
+      'infrastructure': 'fas fa-tools',
+      'visitors': 'fas fa-users',
+      'fire': 'fas fa-fire',
+      'pollution': 'fas fa-tint-slash',
+      'wildlife': 'fas fa-paw'
+    };
+    
+    return icons[type] || 'fas fa-exclamation-circle';
   }
 
   function loadProblem() {
@@ -259,39 +821,92 @@
       return;
     }
 
+    // Check if we should trigger a random event (20% chance)
+    if (Math.random() < 0.2 && currentIndex > 0) {
+      triggerRandomEvent();
+    }
+    
+    // Check if we should trigger a mini-challenge (15% chance)
+    if (Math.random() < 0.15 && currentIndex > 0) {
+      triggerMiniChallenge();
+      return;
+    }
+
     const problem = problems[currentIndex];
+    const icon = problem.icon || getIconForProblemType(problem.type);
+    
+    // Check if community partnership is possible
+    const canUsePartnership = rating >= 60;
+    const partnershipCost = Math.round(problem.actionCost * 0.5 * 10) / 10;
+    
     const card = `
-      <h3>🚨 Alert: ${problem.park}</h3>
-      <p><strong>Problem:</strong> ${problem.issue}</p>
-      <p>What will you do?</p>
-      <button onclick="takeAction()">✅ Take Action (-$${problem.actionCost}M, +${problem.actionImpact} Rating)</button>
-      <button onclick="ignoreProblem()">❌ Ignore (0 Cost, ${problem.skipImpact} Rating)</button>
+      <div class="problem-header">
+        <i class="${icon} problem-icon"></i>
+        <h3 class="problem-title">Alert: ${problem.park}</h3>
+      </div>
+      <p class="problem-description"><strong>${problem.issue}</strong></p>
+      <div class="action-buttons">
+        <button onclick="takeAction(false)" class="btn-action">
+          <i class="fas fa-check-circle"></i> Take Action
+          <span>(-$${problem.actionCost}M, +${problem.actionImpact} Rating)</span>
+        </button>
+        ${canUsePartnership ? 
+          `<button onclick="takeAction(true)" class="btn-community">
+            <i class="fas fa-handshake"></i> Community Partnership
+            <span>(-$${partnershipCost}M, +${problem.actionImpact - 2} Rating)</span>
+          </button>` : ''}
+        <button onclick="ignoreProblem()" class="btn-ignore">
+          <i class="fas fa-times-circle"></i> Ignore
+          <span>(No Cost, ${problem.skipImpact} Rating)</span>
+        </button>
+      </div>
       <div id="alert-msg" class="alert-msg" style="display: none;"></div>
       <div id="more-info" class="more-info" style="display: none;"></div>
     `;
+    
     document.getElementById('problem-card').innerHTML = card;
+    updateProgress();
     isProcessing = false;
   }
 
-  function takeAction() {
+  function takeAction(usePartnership = false) {
     if (isProcessing) return;
     isProcessing = true;
 
     const problem = problems[currentIndex];
-    if (budget < problem.actionCost) {
+    let cost = problem.actionCost;
+    let impact = problem.actionImpact;
+    
+    // If using community partnership
+    if (usePartnership) {
+      cost = Math.round(cost * 0.5 * 10) / 10; // 50% cost, rounded to 1 decimal
+      impact = impact - 2; // Slightly less impact
+      gameStats.communityPartnerships++;
+    }
+    
+    if (budget < cost) {
       document.getElementById('alert-msg').innerText = `❗ Not enough budget to take action.`;
       document.getElementById('alert-msg').style.display = 'block';
       isProcessing = false;
       return;
     }
 
-    budget -= problem.actionCost;
-    rating += problem.actionImpact;
+    budget -= cost;
+    rating += impact;
     parksHelped++;
+    
+    // Update game stats
+    gameStats.parksHelped++;
+    gameStats.moneySpent += cost;
+    gameStats.ratingGained += impact;
+    
     updateDashboard();
 
     const moreInfoDiv = document.getElementById('more-info');
-    moreInfoDiv.textContent = `ℹ️ ${problem.moreInfo}`;
+    moreInfoDiv.innerHTML = `
+      <p><strong>Action Taken:</strong> ${usePartnership ? 'Community Partnership: ' : ''}${problem.actionDescription}</p>
+      <p>${problem.moreInfo}</p>
+    `;
     moreInfoDiv.style.display = 'block';
 
     setTimeout(() => {
@@ -306,10 +921,17 @@
 
     const problem = problems[currentIndex];
     rating += problem.skipImpact;
+    
+    // Update game stats
+    gameStats.ratingLost += Math.abs(problem.skipImpact);
+    
     updateDashboard();
 
     const moreInfoDiv = document.getElementById('more-info');
-    moreInfoDiv.textContent = `ℹ️ ${problem.moreInfo}`;
+    moreInfoDiv.innerHTML = `
+      <p><strong>Consequence:</strong> ${problem.skipDescription}</p>
+      <p>${problem.moreInfo}</p>
+    `;
     moreInfoDiv.style.display = 'block';
 
     setTimeout(() => {
@@ -318,22 +940,159 @@
     }, 3000);
   }
 
+  function triggerRandomEvent() {
+    const event = randomEvents[Math.floor(Math.random() * randomEvents.length)];
+    
+    const notification = document.getElementById('event-notification');
+    notification.innerHTML = `
+      <h3>${event.title}</h3>
+      <p>${event.description}</p>
+      <p>${event.budgetImpact > 0 ? `+$${event.budgetImpact}M Budget` : 
+           event.budgetImpact < 0 ? `-$${Math.abs(event.budgetImpact)}M Budget` : ''}
+         ${event.ratingImpact > 0 ? `+${event.ratingImpact} Rating` : 
+           event.ratingImpact < 0 ? `${event.ratingImpact} Rating` : ''}</p>
+    `;
+    
+    notification.classList.add('show');
+    
+    // Apply the effects
+    budget += event.budgetImpact;
+    rating += event.ratingImpact;
+    updateDashboard();
+    
+    // Hide notification after 5 seconds
+    setTimeout(() => {
+      notification.classList.remove('show');
+    }, 5000);
+  }
+
+  function triggerMiniChallenge() {
+    const challenge = miniChallenges[Math.floor(Math.random() * miniChallenges.length)];
+    
+    const optionsHTML = challenge.options.map((option, index) => {
+      return `
+        <button onclick="resolveMiniChallenge(${index})" class="btn-action">
+          ${option.text}
+          ${option.cost > 0 ? `(-$${option.cost}M)` : 
+            option.cost < 0 ? `(+$${Math.abs(option.cost)}M)` : '(No Cost)'}
+          ${option.impact > 0 ? `(+${option.impact} Rating)` : 
+            option.impact < 0 ? `(${option.impact} Rating)` : ''}
+        </button>
+      `;
+    }).join('');
+    
+    const card = `
+      <div class="mini-challenge">
+        <h3>🌟 Special Challenge: ${challenge.title}</h3>
+        <p>${challenge.description}</p>
+        <div class="mini-challenge-options">
+          ${optionsHTML}
+        </div>
+      </div>
+    `;
+    
+    document.getElementById('problem-card').innerHTML = card;
+    isProcessing = false;
+  }
+
+  function resolveMiniChallenge(optionIndex) {
+    if (isProcessing) return;
+    isProcessing = true;
+    
+    const challenge = miniChallenges[Math.floor(Math.random() * miniChallenges.length)];
+    const selectedOption = challenge.options[optionIndex];
+    
+    if (budget < selectedOption.cost) {
+      const alertMsg = document.createElement('div');
+      alertMsg.className = 'alert-msg';
+      alertMsg.innerText = `❗ Not enough budget for this option.`;
+      document.querySelector('.mini-challenge').appendChild(alertMsg);
+      isProcessing = false;
+      return;
+    }
+    
+    budget -= selectedOption.cost;
+    rating += selectedOption.impact;
+    gameStats.miniChallengesCompleted++;
+    
+    updateDashboard();
+    
+    // Show result and continue
+    const resultMsg = document.createElement('div');
+    resultMsg.className = 'more-info';
+    resultMsg.style.display = 'block';
+    resultMsg.innerHTML = `<p>You chose: ${selectedOption.text}</p>`;
+    document.querySelector('.mini-challenge').appendChild(resultMsg);
+    
+    setTimeout(() => {
+      loadProblem(); // Continue with regular problems
+    }, 2000);
+  }
+
   function showSummary() {
     document.getElementById('problem-card').style.display = 'none';
+    document.querySelector('.progress-container').style.display = 'none';
+    
+    // Determine award level
+    let awardLevel = "Bronze";
+    let awardIcon = "🥉";
+    
+    if (rating >= 90) {
+      awardLevel = "Gold";
+      awardIcon = "🏆";
+    } else if (rating >= 70) {
+      awardLevel = "Silver";
+      awardIcon = "🥈";
+    }
+    
     const summary = `
       <h3>🎉 Mission Complete!</h3>
-      <p>You helped <strong>${parksHelped}</strong> out of ${problems.length} parks.</p>
-      <p>Final Budget: $${budget}M</p>
-      <p>Final Park Rating: ${rating}/100</p>
-      <p><strong>${rating >= 80 ? '🌟 Gold' : rating >= 60 ? '🧈 Silver' : '🥉 Bronze'} Director Award</strong></p>
-      <button onclick="location.reload()">Play Again</button>
+      
+      <div class="award">
+        ${awardIcon} ${awardLevel} Director Award ${awardIcon}
+      </div>
+      
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-value">${parksHelped}</div>
+          <div class="stat-label">Parks Helped</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">$${budget}M</div>
+          <div class="stat-label">Remaining Budget</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">${rating}/100</div>
+          <div class="stat-label">Final Rating</div>
+        </div>
+      </div>
+      
+      <div class="stats">
+        <div class="stat-item">
+          <div class="stat-value">$${gameStats.moneySpent}M</div>
+          <div class="stat-label">Money Invested</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">${gameStats.communityPartnerships}</div>
+          <div class="stat-label">Partnerships</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-value">${gameStats.miniChallengesCompleted}</div>
+          <div class="stat-label">Special Challenges</div>
+        </div>
+      </div>
+      
+      <p>As the Director of Pennsylvania's State Parks, you've made a significant impact on conservation and recreation across the state. Your leadership will be remembered for generations to come!</p>
+      
+      <button onclick="location.reload()" class="btn-action"><i class="fas fa-redo"></i> Play Again</button>
     `;
+    
     document.getElementById('summary').innerHTML = summary;
     document.getElementById('summary').style.display = 'block';
   }
 
-  loadProblem();
-  updateDashboard();
+  // Initialize the game
+  document.getElementById('total-parks').innerText = problems.length;
 </script>
 
 </body>
