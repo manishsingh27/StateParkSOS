@@ -944,12 +944,12 @@
     moreInfoDiv.innerHTML = `
       <p><strong>Action Taken:</strong> ${usePartnership ? 'Community Partnership: ' : ''}${problem.actionDescription}</p>
       <p>${problem.moreInfo}</p>
-      <div class="countdown">Continuing in <span id="countdown-timer">3</span>...</div>
+      <div class="countdown">Continuing in <span id="countdown-timer">5</span>...</div>
     `;
     moreInfoDiv.style.display = 'block';
 
     // Add countdown timer
-    let countdown = 3;
+    let countdown = 5;
     const countdownTimer = setInterval(() => {
       countdown--;
       const timerElement = document.getElementById('countdown-timer');
@@ -964,7 +964,7 @@
     setTimeout(() => {
       currentIndex++;
       if (!checkGameOver()) loadProblem();
-    }, 3000);
+    }, 5000);
   }
 
   function ignoreProblem() {
@@ -991,12 +991,12 @@
     moreInfoDiv.innerHTML = `
       <p><strong>Consequence:</strong> ${problem.skipDescription}</p>
       <p>${problem.moreInfo}</p>
-      <div class="countdown">Continuing in <span id="countdown-timer">3</span>...</div>
+      <div class="countdown">Continuing in <span id="countdown-timer">5</span>...</div>
     `;
     moreInfoDiv.style.display = 'block';
 
     // Add countdown timer
-    let countdown = 3;
+    let countdown = 5;
     const countdownTimer = setInterval(() => {
       countdown--;
       const timerElement = document.getElementById('countdown-timer');
@@ -1011,7 +1011,7 @@
     setTimeout(() => {
       currentIndex++;
       if (!checkGameOver()) loadProblem();
-    }, 3000);
+    }, 5000);
   }
 
   function triggerRandomEvent() {
@@ -1114,12 +1114,12 @@
     resultMsg.style.display = 'block';
     resultMsg.innerHTML = `
       <p>You chose: ${selectedOption.text}</p>
-      <div class="countdown">Continuing in <span id="countdown-timer">3</span>...</div>
+      <div class="countdown">Continuing in <span id="countdown-timer">5</span>...</div>
     `;
     document.querySelector('.mini-challenge').appendChild(resultMsg);
     
     // Add countdown timer
-    let countdown = 3;
+    let countdown = 5;
     const countdownTimer = setInterval(() => {
       countdown--;
       const timerElement = document.getElementById('countdown-timer');
@@ -1133,7 +1133,7 @@
     
     setTimeout(() => {
       loadProblem(); // Continue with regular problems
-    }, 3000);
+    }, 5000);
   }
 
   function showSummary() {
