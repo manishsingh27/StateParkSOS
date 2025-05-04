@@ -366,6 +366,27 @@
       margin-top: 15px;
     }
     
+    .countdown {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #666;
+      background: #f5f5f5;
+      padding: 8px;
+      border-radius: 20px;
+      display: inline-block;
+    }
+    
+    #countdown-timer {
+      font-weight: bold;
+      color: var(--primary-color);
+      font-size: 1.1rem;
+    }
+    
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
     @media (max-width: 768px) {
       body {
         padding: 10px;
@@ -410,7 +431,7 @@
       <li>Manage your budget wisely</li>
       <li>Keep your Park Rating high!</li>
     </ul>
-    <p>You start with a <strong>$112 million budget</strong> and a <strong>Park Rating of 50</strong> (scale 1-100).</p>
+    <p>You start with a <strong>$35 million budget</strong> and a <strong>Park Rating of 50</strong> (scale 1-100).</p>
     <p>For each park problem, decide whether to take action (costs money but helps the park) or ignore it (no cost, but rating may suffer).</p>
     <p>Can you become a legendary Park Protector?</p>
     <button onclick="startGame()" class="btn-action"><i class="fas fa-play"></i> Start Game</button>
@@ -418,7 +439,7 @@
 
   <div class="dashboard" style="display: none;">
     <div class="dashboard-item">
-      <div class="dashboard-value">$<span id="budget">112</span>M</div>
+      <div class="dashboard-value">$<span id="budget">35</span>M</div>
       <div class="dashboard-label">Budget</div>
     </div>
     <div class="dashboard-item">
@@ -462,7 +483,7 @@
 </div>
 
 <script>
-  let budget = 112;
+  let budget = 35;
   let rating = 50;
   let currentIndex = 0;
   let parksHelped = 0;
@@ -873,6 +894,14 @@
     if (isProcessing) return;
     isProcessing = true;
 
+    // Disable all buttons while processing
+    const buttons = document.querySelectorAll('.action-buttons button');
+    buttons.forEach(button => {
+      button.disabled = true;
+      button.style.opacity = '0.5';
+      button.style.cursor = 'not-allowed';
+    });
+
     const problem = problems[currentIndex];
     let cost = problem.actionCost;
     let impact = problem.actionImpact;
@@ -887,7 +916,16 @@
     if (budget < cost) {
       document.getElementById('alert-msg').innerText = `❗ Not enough budget to take action.`;
       document.getElementById('alert-msg').style.display = 'block';
-      isProcessing = false;
+      
+      // Re-enable buttons after showing error
+      setTimeout(() => {
+        buttons.forEach(button => {
+          button.disabled = false;
+          button.style.opacity = '1';
+          button.style.cursor = 'pointer';
+        });
+        isProcessing = false;
+      }, 1500);
       return;
     }
 
@@ -906,8 +944,22 @@
     moreInfoDiv.innerHTML = `
       <p><strong>Action Taken:</strong> ${usePartnership ? 'Community Partnership: ' : ''}${problem.actionDescription}</p>
       <p>${problem.moreInfo}</p>
+      <div class="countdown">Continuing in <span id="countdown-timer">3</span>...</div>
     `;
     moreInfoDiv.style.display = 'block';
+
+    // Add countdown timer
+    let countdown = 3;
+    const countdownTimer = setInterval(() => {
+      countdown--;
+      const timerElement = document.getElementById('countdown-timer');
+      if (timerElement) {
+        timerElement.textContent = countdown;
+      }
+      if (countdown <= 0) {
+        clearInterval(countdownTimer);
+      }
+    }, 1000);
 
     setTimeout(() => {
       currentIndex++;
@@ -918,6 +970,14 @@
   function ignoreProblem() {
     if (isProcessing) return;
     isProcessing = true;
+
+    // Disable all buttons while processing
+    const buttons = document.querySelectorAll('.action-buttons button');
+    buttons.forEach(button => {
+      button.disabled = true;
+      button.style.opacity = '0.5';
+      button.style.cursor = 'not-allowed';
+    });
 
     const problem = problems[currentIndex];
     rating += problem.skipImpact;
@@ -931,8 +991,22 @@
     moreInfoDiv.innerHTML = `
       <p><strong>Consequence:</strong> ${problem.skipDescription}</p>
       <p>${problem.moreInfo}</p>
+      <div class="countdown">Continuing in <span id="countdown-timer">3</span>...</div>
     `;
     moreInfoDiv.style.display = 'block';
+
+    // Add countdown timer
+    let countdown = 3;
+    const countdownTimer = setInterval(() => {
+      countdown--;
+      const timerElement = document.getElementById('countdown-timer');
+      if (timerElement) {
+        timerElement.textContent = countdown;
+      }
+      if (countdown <= 0) {
+        clearInterval(countdownTimer);
+      }
+    }, 1000);
 
     setTimeout(() => {
       currentIndex++;
@@ -999,6 +1073,14 @@
     if (isProcessing) return;
     isProcessing = true;
     
+    // Disable all buttons while processing
+    const buttons = document.querySelectorAll('.mini-challenge-options button');
+    buttons.forEach(button => {
+      button.disabled = true;
+      button.style.opacity = '0.5';
+      button.style.cursor = 'not-allowed';
+    });
+    
     const challenge = miniChallenges[Math.floor(Math.random() * miniChallenges.length)];
     const selectedOption = challenge.options[optionIndex];
     
@@ -1007,7 +1089,16 @@
       alertMsg.className = 'alert-msg';
       alertMsg.innerText = `❗ Not enough budget for this option.`;
       document.querySelector('.mini-challenge').appendChild(alertMsg);
-      isProcessing = false;
+      
+      // Re-enable buttons after showing error
+      setTimeout(() => {
+        buttons.forEach(button => {
+          button.disabled = false;
+          button.style.opacity = '1';
+          button.style.cursor = 'pointer';
+        });
+        isProcessing = false;
+      }, 1500);
       return;
     }
     
@@ -1021,12 +1112,28 @@
     const resultMsg = document.createElement('div');
     resultMsg.className = 'more-info';
     resultMsg.style.display = 'block';
-    resultMsg.innerHTML = `<p>You chose: ${selectedOption.text}</p>`;
+    resultMsg.innerHTML = `
+      <p>You chose: ${selectedOption.text}</p>
+      <div class="countdown">Continuing in <span id="countdown-timer">3</span>...</div>
+    `;
     document.querySelector('.mini-challenge').appendChild(resultMsg);
+    
+    // Add countdown timer
+    let countdown = 3;
+    const countdownTimer = setInterval(() => {
+      countdown--;
+      const timerElement = document.getElementById('countdown-timer');
+      if (timerElement) {
+        timerElement.textContent = countdown;
+      }
+      if (countdown <= 0) {
+        clearInterval(countdownTimer);
+      }
+    }, 1000);
     
     setTimeout(() => {
       loadProblem(); // Continue with regular problems
-    }, 2000);
+    }, 3000);
   }
 
   function showSummary() {
