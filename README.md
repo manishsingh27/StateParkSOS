@@ -14,7 +14,7 @@ A web-based game where you take on the role of the Director of Pennsylvania's Bu
 - Become a legendary Park Protector!
 
 **Starting Resources:**
-- Budget: $112 million
+- Budget: $35 million
 - Park Rating: 50 (scale 1-100)
 
 **Game Mechanics:**
